@@ -3,6 +3,7 @@
 
 * Easy to train classification models to test out state of the art models on CIFAR-10
 * Made with the intention of plugging in components for quick tryouts
+* EMA Averaging included. The EMA Model usually results in better results if you run for larger number of epochs.
 
 # Results
 

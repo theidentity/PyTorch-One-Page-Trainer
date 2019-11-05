@@ -200,8 +200,6 @@ class Classifier():
     def evaluate(self):
         start_epoch, model, opt, scheduler, criterion, ema_model, ema_opt = self.get_model(resume=True)
         train_dl, test_dl = self.get_dataloaders()
-        for x, y in train_dl:
-            op = ema_model(x)
         train_loss, train_acc = self.test(model, criterion, train_dl)
         test_loss, test_acc = self.test(model, criterion, test_dl)
         ema_test_loss, ema_test_acc = self.test(ema_model, criterion, test_dl)
