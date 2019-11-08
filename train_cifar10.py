@@ -109,7 +109,7 @@ class Classifier():
             transforms.RandomHorizontalFlip(.5),
             transforms.ToTensor(),
             transforms.Normalize(mean, std),
-            # Cutout(n_holes=1, length=16)
+            Cutout(n_holes=1, length=16)
         ])
         train_dataset = datasets.CIFAR10(root='data/', train=True, transform=train_tfms, download=False)
         test_dataset = datasets.CIFAR10(root='data/', train=False, transform=eval_tfms, download=False)
@@ -121,6 +121,7 @@ class Classifier():
         criterion = nn.CrossEntropyLoss()
         model = resnet.ResNet18(num_classes=self.num_classes)
         # model = shake_shake.ShakeResNet(depth=26, w_base=32, label=self.num_classes)
+        # model = shake_shake.ShakeResNet(depth=26, w_base=64, label=self.num_classes)
         model = nn.DataParallel(model).cuda()
         opt = torch.optim.SGD(model.parameters(), lr=.1, momentum=.9, nesterov=True, weight_decay=5e-4)
         scheduler = torch.optim.lr_scheduler.MultiStepLR(opt, [60, 120, 160], gamma=.2)
@@ -208,5 +209,5 @@ class Classifier():
 
 if __name__ == '__main__':
     clf = Classifier()
-    clf.train(num_epochs=300, resume=True)
+    clf.train(num_epochs=300, resume=False)
     clf.evaluate()
